@@ -4,22 +4,27 @@ import 'package:vazifa_jira_1/provider/hide_show_password_provider.dart';
 
 class MyTextForumFiled extends StatelessWidget {
   String? hintText;
+  bool? obscureText;
+
   IconData? suffixIcon;
   Function()? suffixOntap;
-  bool? obscureText;
+  FormFieldValidator<String>? validator;
   TextEditingController? textEditingController;
+
   MyTextForumFiled({
     Key? key,
     this.hintText,
+    this.validator,
     this.suffixIcon,
     this.suffixOntap,
+    this.obscureText = true,
     this.textEditingController,
-    required this.obscureText,
   }) : super(key: key);
 
   @override
   TextFormField build(BuildContext context) {
     return TextFormField(
+      validator: validator,
       controller: textEditingController,
       obscureText: obscureText!
           ? false

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:vazifa_jira_1/screens/home_page.dart';
+import 'package:vazifa_jira_1/screens/login_page.dart';
 
 class RouterGenerator {
   static Route? generateRoute(RouteSettings settings) {
