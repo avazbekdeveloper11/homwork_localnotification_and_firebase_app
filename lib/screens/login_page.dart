@@ -9,8 +9,8 @@ import 'package:vazifa_jira_1/model/data.dart';
 import 'package:vazifa_jira_1/provider/hide_show_password_provider.dart';
 import 'package:vazifa_jira_1/service/service.dart';
 
-class HomePage extends StatelessWidget {
-  HomePage({Key? key}) : super(key: key);
+class LoginPage extends StatelessWidget {
+  LoginPage({Key? key}) : super(key: key);
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _textEditingControllerEmail =
       TextEditingController();
@@ -23,76 +23,80 @@ class HomePage extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: MyAppBar(title: "Sign In").getAppBar(context),
-      body: Form(
-        key: _formKey,
-        child: MyPadding.paddingSymmetric(
-          horizontal: 20,
-          vertical: 20,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              MyPadding.paddingSymmetric(
-                vertical: 20,
-                child: Text(
-                  "Email",
-                  style: MyTextStyle.simpleStyle(size: 35),
+      body: SingleChildScrollView(
+        child: Form(
+          key: _formKey,
+          child: MyPadding.paddingSymmetric(
+            horizontal: 20,
+            vertical: 20,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                MyPadding.paddingSymmetric(
+                  vertical: 20,
+                  child: Text(
+                    "Email",
+                    style: MyTextStyle.simpleStyle(size: 35),
+                  ),
                 ),
-              ),
-              TextFormField(
-                validator: (v) => emailValidate(v!),
-                controller: _textEditingControllerEmail,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: "Email",
+                TextFormField(
+                  keyboardType: TextInputType.emailAddress,
+                  validator: (v) => emailValidate(v!),
+                  controller: _textEditingControllerEmail,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: "Email",
+                  ),
                 ),
-              ),
-              MyPadding.paddingSymmetric(
-                vertical: 20,
-                child: Text(
-                  "Password",
-                  style: MyTextStyle.simpleStyle(size: 35),
+                MyPadding.paddingSymmetric(
+                  vertical: 20,
+                  child: Text(
+                    "Password",
+                    style: MyTextStyle.simpleStyle(size: 35),
+                  ),
                 ),
-              ),
-              TextFormField(
-                validator: (v) => passwordValidate(v!),
-                obscureText: context.watch<HideShowPasswordProvider>().isShow,
-                controller: _textEditingControllerPassword,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: "Password",
+                TextFormField(
+                  keyboardType: TextInputType.visiblePassword,
+                  validator: (v) => passwordValidate(v!),
+                  obscureText: context.watch<HideShowPasswordProvider>().isShow,
+                  controller: _textEditingControllerPassword,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: "Password",
+                  ),
                 ),
-              ),
-              MyPadding.paddingOnly(
-                top: 20,
-                child: MyButton.MyElevatedButton(
-                  text: "Sign Up",
-                  onTap: () async {
-                    if (_formKey.currentState!.validate()) {
-                      bool a = await FireBaseService.signUp(
-                        email: _textEditingControllerEmail.text,
-                        password: _textEditingControllerPassword.text,
-                      );
-                      a ? debugPrint("Home pagedasize!") : debugPrint("no");
-                    }
-                  },
+                MyPadding.paddingOnly(
+                  top: size.height / 1.2,
+                  child: MyButton.MyElevatedButton(
+                    text: "Sign Up",
+                    onTap: () async {
+                      if (_formKey.currentState!.validate()) {
+                        bool a = await FireBaseService.signUp(
+                          email: _textEditingControllerEmail.text,
+                          password: _textEditingControllerPassword.text,
+                        );
+                        a ? Navigator.pushReplacementNamed(context, "/home") : null;
+                      }
+                    },
+                  ),
                 ),
-              ),
-              MyPadding.paddingOnly(
-                top: 20,
-                child: MyButton.MyElevatedButton(
-                  text: "Sign In",
-                  onTap: () async {
-                    if (_formKey.currentState!.validate()) {
-                      bool a = await FireBaseService.signIn(
-                        email: _textEditingControllerEmail.text,
-                        password: _textEditingControllerPassword.text,
-                      );
-                      a ? debugPrint("Home pagedasize!") : debugPrint("no");
-                    }
-                  },
+                MyPadding.paddingOnly(
+                  top: 20,
+                  child: MyButton.MyElevatedButton(
+                    text: "Sign In",
+                    onTap: () async {
+                      if (_formKey.currentState!.validate()) {
+                        bool a = await FireBaseService.signIn(
+                          email: _textEditingControllerEmail.text,
+                          password: _textEditingControllerPassword.text,
+                        );
+                        a ? Navigator.pushReplacementNamed(context, "/home") : null;
+                      }
+                    },
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
